@@ -9,8 +9,8 @@ class Login extends CI_Controller{
                 $this->load->view('login');
             }else{
                 $auth = $this->model_auth->cek_login();
-				$hashed = hash("sha512", $this->input->post('password').$auth->salt_user);
-                if($auth->password_user !== $hashed){
+				$password = $this->input->post('password');
+                if($auth->password !== $password){
                     $this->session->set_flashdata('pesan','<div class="alert alert-warning alert-dismissible">
                                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                                 <h4><i class="icon fa fa-warning"></i> Alert!</h4>
@@ -19,15 +19,7 @@ class Login extends CI_Controller{
                     );
                     redirect("");
                 }else{
-                    $this->session->set_userdata('id_user', $auth->id_user);
-                    $this->session->set_userdata('role_user', $auth->role_user);
-                    $this->session->set_userdata('nama_user', $auth->nama_user);
-                    $this->session->set_userdata('nip_user', $auth->nip_user);
-                    $this->session->set_userdata('fakultas', $auth->fakultas);
-
-                    switch($auth->role_user){
-                        
-                    }
+                    redirect("")
                 }
             }
         }else{

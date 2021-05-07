@@ -24,7 +24,7 @@
 </head>
 
 <body class="bg-gradient-primary">
-
+<?php echo $this->session->flashdata('pesan'); ?>
     <div class="container">
 
         <!-- Outer Row -->
@@ -44,19 +44,17 @@
                                     <div class="text-center">
                                         <h1 class="h5">Silahkan login terlebih dahulu untuk melanjutkan ke aplikasi!</h1>
                                     </div>
-                                    <form class="user">
+                                    <form action="<?php echo base_url() ?>" class="user" method="POST">
                                         <div class="form-group">
-                                            <input type="email" class="form-control form-control-user"
+                                            <input name="email" type="email" class="form-control form-control-user"
                                                 id="exampleInputEmail" aria-describedby="emailHelp"
-                                                placeholder="Enter Email Address...">
+                                                placeholder="Email" required>
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" class="form-control form-control-user"
-                                                id="exampleInputPassword" placeholder="Password">
+                                            <input name="password" type="password" class="form-control form-control-user"
+                                                id="exampleInputPassword" placeholder="Password" required>
                                         </div>
-                                        <a href="index.html" class="btn btn-primary btn-user btn-block">
-                                            Login
-                                        </a>
+                                        <input type="submit" class="btn btn-primary btn-user btn-block" value="Login">
                                         <hr>
                                         
                                     </form>

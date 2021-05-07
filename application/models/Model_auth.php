@@ -3,8 +3,7 @@
 class Model_auth extends CI_Model{
     public function cek_login(){
         $email = set_value('email');
-
-        $result = $this->db->where('email_user', $email)
+        $result = $this->db->where('email', $email)
                            ->limit(1)
                            ->get('tbl_user');
         if($result->num_rows() > 0){
