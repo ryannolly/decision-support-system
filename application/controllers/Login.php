@@ -19,7 +19,7 @@ class Login extends CI_Controller{
                     );
                     redirect("");
                 }else{
-                    redirect("")
+                    echo "Hi Ganteng! :)";
                 }
             }
         }else{
