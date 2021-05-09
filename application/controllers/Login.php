@@ -2,7 +2,7 @@
 
 class Login extends CI_Controller{
     public function index(){
-        if($this->session->userdata('role_user') == null){
+        if($this->session->userdata('id_user') == null){
             $this->form_validation->set_rules('email', 'Email', 'required');
             $this->form_validation->set_rules('password', 'Password', 'required');
             if($this->form_validation->run() == false){
@@ -19,14 +19,26 @@ class Login extends CI_Controller{
                     );
                     redirect("");
                 }else{
-                    echo "Hi Ganteng! :)";
+                    $this->session->set_userdata('id_user', $auth->id);
+                    $this->session->set_userdata('nama_admin', $auth->nama_admin);
+                    redirect("admin");
                 }
             }
         }else{
-            switch($this->session->userdata('role_user')){
-                
-            }
+            redirect('admin');  
         }
+    }
+
+    public function logout(){
+        $userdata = array('id_user', 'nama_admin');
+        $this->session->unset_userdata($userdata);
+        $this->session->set_flashdata('pesan','<div class="alert alert-success alert-dismissible">
+                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                         <h4><i class="icon fa fa-check"></i> Alert!</h4>
+                         Anda telah berhasil logout!
+                         </div>'
+                    );
+        redirect('');
     }
 }
 
