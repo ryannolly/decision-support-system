@@ -20,7 +20,7 @@
 
         <!-- Nav Item - Dashboard -->
         <li class="nav-item active">
-            <a class="nav-link" href="index.html">
+            <a class="nav-link" href="<?php echo base_url() ?>">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Dashboard</span></a>
         </li>
@@ -43,8 +43,8 @@
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Operasi Data Siswa : </h6>
-                    <a class="collapse-item" href="buttons.html">Lihat Data Siswa</a>
-                    <a class="collapse-item" href="cards.html">Input Data Siswa Baru</a>
+                    <a class="collapse-item" href="<?php echo base_url('admin/lihat_data_siswa') ?>">Lihat Data Siswa</a>
+                    <a class="collapse-item" href="<?php echo base_url('admin/input_data_siswa') ?>">Input Data Siswa Baru</a>
                 </div>
             </div>
         </li>
