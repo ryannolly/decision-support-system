@@ -62,6 +62,18 @@ class Model_siswa extends CI_Model{
             return 0;
         }
     }
+
+    public function panggil_nilai_absensi($nisn){
+        $result = $this->db->where('nisn', $nisn)
+                           ->limit(1)
+                           ->get('tbl_absensi');
+        if($result->num_rows() > 0){
+            $nilai = $result->row();
+            return $nilai->nilai_absensi;
+        }else{
+            return 0;
+        }
+    }
 }
 
 ?>

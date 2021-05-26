@@ -460,9 +460,130 @@ class Admin extends CI_Controller{
             $is_bisa = FALSE;
         }
 
-        $data = array(
-            'is_bisa' => $is_bisa
-        );
+        //Pengisian semua nilai ke array hmmmm
+        $data['is_bisa']        = $is_bisa;
+        $data['data_siswa']     = $this->model_siswa->tampil_data_siswa()->result();
+        
+
+        //Pengisian Nilai C
+        if($is_bisa){
+            $no = 0;
+            foreach($data['data_siswa'] as $ds){
+                //Ambek C1
+                $nilaiC1 = $this->model_siswa->panggil_rerata($ds->nisn, 'tbl_nilai_non_keagamaan');
+                if($nilaiC1 >= 75){
+                    $C1 = 5;
+                }elseif($nilaiC1 >= 70 AND $nilaiC1 < 75){
+                    $C1 = 4;
+                }elseif($nilaiC1 >= 65 AND $nilaiC1 < 70){
+                    $C1 = 2;
+                }else{
+                    $C1 = 1;
+                }
+
+                //Ambek C2
+                $C2 = $this->model_siswa->panggil_nilai_absensi($ds->nisn);
+
+                //Ambek C3
+                $nilaiC3 = $this->model_siswa->tampil_data_nilai($ds->nisn, 'tbl_nilai_perilaku');
+                $frekuensi = array(
+                    'A'     => 0,
+                    'B'     => 0,
+                    'C'     => 0,
+                    'D'     => 0
+                );
+
+                $frekuensi[$nilaiC3[0]->nilai_kelakuan]++;
+                $frekuensi[$nilaiC3[0]->nilai_kerajinan]++;
+                $frekuensi[$nilaiC3[0]->nilai_kedisiplinan]++;
+                $frekuensi[$nilaiC3[0]->nilai_kerapian]++;
+                
+                
+                if($frekuensi['D'] >= 1){
+                    $C3 = 1;
+                }elseif($frekuensi['C'] > 2){
+                    $C3 = 2;
+                }elseif($frekuensi['C'] == 2){
+                    $C3 = 3;
+                }elseif($frekuensi['B'] > $frekuensi['A']){
+                    $C3 = 4;
+                }elseif($frekuensi['A'] > $frekuensi['B']){
+                    $C3 = 5;
+                }
+
+                //Ambek C4
+                $nilaiC4 = $this->model_siswa->panggil_rerata($ds->nisn, 'tbl_nilai_keagamaan');
+                
+                if($nilaiC4 >= 86){
+                    $C4 = 5;
+                }elseif($nilaiC4 >= 78 AND $nilaiC4 < 86){
+                    $C4 = 4;
+                }elseif($nilaiC4 >= 70 AND $nilaiC4 < 78){
+                    $C4 = 2;
+                }else{
+                    $C4 = 1;
+                }
+
+                
+                $dataTambahan = array(
+                    'C1'    => $C1,
+                    'C2'    => $C2,
+                    'C3'    => $C3,
+                    'C4'    => $C4
+                );
+
+                $data['data_siswa'][$no++] = (object) array_merge((array) $ds, $dataTambahan);
+            }
+        }
+
+        //Pembuatan Vektor S
+        if($is_bisa){
+            $no = 0;
+            foreach($data['data_siswa'] as $ds){
+                $nilai = pow($ds->C1, 0.5)*pow($ds->C2, 0.2)*pow($ds->C3, 0.2)*pow($ds->C4, 0.1);
+                $dataTambahan = array(
+                    'vektorS'   => $nilai
+                );
+
+                $data['data_siswa'][$no++] = (object) array_merge((array) $ds, $dataTambahan);
+            }
+        }
+
+        //Pembuatan Vektor V
+        if($is_bisa){
+            //Menghitung Jumlah S
+            $Sigmasn = 0;
+            foreach($data['data_siswa'] as $ds){
+                $Sigmasn += $ds->vektorS;
+            }
+            $data['sigmasn'] = $Sigmasn;
+
+            //Menghitung V
+            $no = 0;
+            foreach($data['data_siswa'] as $ds){
+                $nilai = $ds->vektorS/$Sigmasn;
+                $dataTambahan = array(
+                    'vektorV'   => $nilai
+                );
+                $data['data_siswa'][$no++] = (object) array_merge((array) $ds, $dataTambahan);
+
+            }
+        }
+
+        //Menghitung Terbesar
+        if($is_bisa){
+            $nama_terbesar = "anto";
+            $nilai_terbesar = -1;
+            foreach($data['data_siswa'] as $ds){
+                if($ds->vektorV > $nilai_terbesar){
+                    $nilai_terbesar = $ds->vektorV;
+                    $nama_terbesar = $ds->nama_siswa;
+                }
+            }
+
+            $data['nilai_terbesar'] = $nilai_terbesar;
+            $data['nama_terbesar'] = $nama_terbesar;
+        }
 
         $this->load->view('Admin/Template_admin/header');
         $this->load->view('Admin/Template_admin/sidebar');
@@ -488,9 +609,130 @@ class Admin extends CI_Controller{
             $is_bisa = FALSE;
         }
 
-        $data = array(
-            'is_bisa' => $is_bisa
-        );
+        //Pengisian semua nilai ke array hmmmm
+        $data['is_bisa']        = $is_bisa;
+        $data['data_siswa']     = $this->model_siswa->tampil_data_siswa()->result();
+        
+
+        //Pengisian Nilai C
+        if($is_bisa){
+            $no = 0;
+            foreach($data['data_siswa'] as $ds){
+                //Ambek C1
+                $nilaiC1 = $this->model_siswa->panggil_rerata($ds->nisn, 'tbl_nilai_non_keagamaan');
+                if($nilaiC1 >= 75){
+                    $C1 = 5;
+                }elseif($nilaiC1 >= 70 AND $nilaiC1 < 75){
+                    $C1 = 4;
+                }elseif($nilaiC1 >= 65 AND $nilaiC1 < 70){
+                    $C1 = 2;
+                }else{
+                    $C1 = 1;
+                }
+
+                //Ambek C2
+                $C2 = $this->model_siswa->panggil_nilai_absensi($ds->nisn);
+
+                //Ambek C3
+                $nilaiC3 = $this->model_siswa->tampil_data_nilai($ds->nisn, 'tbl_nilai_perilaku');
+                $frekuensi = array(
+                    'A'     => 0,
+                    'B'     => 0,
+                    'C'     => 0,
+                    'D'     => 0
+                );
+
+                $frekuensi[$nilaiC3[0]->nilai_kelakuan]++;
+                $frekuensi[$nilaiC3[0]->nilai_kerajinan]++;
+                $frekuensi[$nilaiC3[0]->nilai_kedisiplinan]++;
+                $frekuensi[$nilaiC3[0]->nilai_kerapian]++;
+                
+                
+                if($frekuensi['D'] >= 1){
+                    $C3 = 1;
+                }elseif($frekuensi['C'] > 2){
+                    $C3 = 2;
+                }elseif($frekuensi['C'] == 2){
+                    $C3 = 3;
+                }elseif($frekuensi['B'] > $frekuensi['A']){
+                    $C3 = 4;
+                }elseif($frekuensi['A'] > $frekuensi['B']){
+                    $C3 = 5;
+                }
+
+                //Ambek C4
+                $nilaiC4 = $this->model_siswa->panggil_rerata($ds->nisn, 'tbl_nilai_keagamaan');
+                
+                if($nilaiC4 >= 86){
+                    $C4 = 5;
+                }elseif($nilaiC4 >= 78 AND $nilaiC4 < 86){
+                    $C4 = 4;
+                }elseif($nilaiC4 >= 70 AND $nilaiC4 < 78){
+                    $C4 = 2;
+                }else{
+                    $C4 = 1;
+                }
+
+                
+                $dataTambahan = array(
+                    'C1'    => $C1,
+                    'C2'    => $C2,
+                    'C3'    => $C3,
+                    'C4'    => $C4
+                );
+
+                $data['data_siswa'][$no++] = (object) array_merge((array) $ds, $dataTambahan);
+            }
+        }
+
+        //Pembuatan Vektor S
+        if($is_bisa){
+            $no = 0;
+            foreach($data['data_siswa'] as $ds){
+                $nilai = pow($ds->C1, 0.5)*pow($ds->C2, 0.2)*pow($ds->C3, 0.2)*pow($ds->C4, 0.1);
+                $dataTambahan = array(
+                    'vektorS'   => $nilai
+                );
+
+                $data['data_siswa'][$no++] = (object) array_merge((array) $ds, $dataTambahan);
+            }
+        }
+
+        //Pembuatan Vektor V
+        if($is_bisa){
+            //Menghitung Jumlah S
+            $Sigmasn = 0;
+            foreach($data['data_siswa'] as $ds){
+                $Sigmasn += $ds->vektorS;
+            }
+            $data['sigmasn'] = $Sigmasn;
+
+            //Menghitung V
+            $no = 0;
+            foreach($data['data_siswa'] as $ds){
+                $nilai = $ds->vektorS/$Sigmasn;
+                $dataTambahan = array(
+                    'vektorV'   => $nilai
+                );
+                $data['data_siswa'][$no++] = (object) array_merge((array) $ds, $dataTambahan);
+
+            }
+        }
+
+        //Menghitung Terbesar
+        if($is_bisa){
+            $nama_terbesar = "anto";
+            $nilai_terbesar = -1;
+            foreach($data['data_siswa'] as $ds){
+                if($ds->vektorV > $nilai_terbesar){
+                    $nilai_terbesar = $ds->vektorV;
+                    $nama_terbesar = $ds->nama_siswa;
+                }
+            }
+
+            $data['nilai_terbesar'] = $nilai_terbesar;
+            $data['nama_terbesar'] = $nama_terbesar;
+        }
 
         $this->load->view('Admin/Template_admin/header');
         $this->load->view('Admin/Template_admin/sidebar');

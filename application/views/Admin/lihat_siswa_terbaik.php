@@ -18,7 +18,9 @@
                     </div>
                     <div class="card-body">
                         <?php if($is_bisa): ?>
-
+                            <p>Berdasarkan perhitungan Nilai, Absensi, dan perilaku didapatlah hasil siswa terbaik yaitu : </p>
+                            <center><h3 class="text-success"><?php echo $nama_terbesar ?></h3></center>
+                            <center><h6 class="text-success">dengan nilai = <?php echo $nilai_terbesar ?></h6></center>
                         <?php else: ?>
                             <center><h1 class="text-danger">Anda belum mengisi semua nilai dari siswa yang ada!</h1></center>
                         <?php endif ?>
