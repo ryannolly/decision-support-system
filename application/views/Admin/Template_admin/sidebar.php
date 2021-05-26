@@ -60,10 +60,10 @@
                 data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Operasi Nilai Siswa : </h6>
-                    <a class="collapse-item" href="utilities-color.html">Nilai Mata Pelajaran<br>(Non Keagamaan)</a>
-                    <a class="collapse-item" href="utilities-border.html">Nilai Mata Pelajaran<br>(Keagamaan)</a>
-                    <a class="collapse-item" href="utilities-animation.html">Absensi</a>
-                    <a class="collapse-item" href="utilities-other.html">Perilaku</a>
+                    <a class="collapse-item" href="<?php echo base_url('admin/input_nilai_non_keagamaan') ?>">Nilai Mata Pelajaran<br>(Non Keagamaan)</a>
+                    <a class="collapse-item" href="<?php echo base_url('admin/input_nilai_keagamaan') ?>">Nilai Mata Pelajaran<br>(Keagamaan)</a>
+                    <a class="collapse-item" href="<?php echo base_url('admin/input_absensi') ?>">Absensi</a>
+                    <a class="collapse-item" href="<?php echo base_url('admin/input_nilai_perilaku') ?>">Perilaku</a>
                 </div>
             </div>
         </li>
@@ -78,14 +78,14 @@
 
         <!-- Nav Item - Charts -->
         <li class="nav-item">
-            <a class="nav-link" href="charts.html">
+            <a class="nav-link" href="<?php echo base_url('admin/lihat_siswa_terbaik') ?>">
                 <i class="fas fa-fw fa-chart-area"></i>
                 <span>Lihat Siswa Terbaik</span></a>
         </li>
 
         <!-- Nav Item - Tables -->
         <li class="nav-item">
-            <a class="nav-link" href="tables.html">
+            <a class="nav-link" href="<?php echo base_url('admin/lihat_detail_siswa_terbaik') ?>">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Lihat Detail Siswa Terbaik</span></a>
         </li>
